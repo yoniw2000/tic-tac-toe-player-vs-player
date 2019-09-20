@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="UTF-8">
+            <title>Tic Tak Toe</title>
+            <link rel="stylesheet" type="text/css" href="tictack.css">
+
+    </head>
+
+    <body onload="start_new_game()">
+
+
+
+        <script>
+            var turns = ["X", "Y"];
+            turn = turns[Math.floor(Math.random() * turns.length)];
+            turns = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+            var count = 0;
+            var finish = 0;
+
+            function start_new_game() {
+                document.getElementById("turn_lable").innerHTML = "I'ts " + turn + " turn";
+            }
+
+            function change_turn() {
+                
+                if (turn == "X") {                   
+                    turn = "Y";
+                }
+                else {
+                    turn = "X";
+                } 
+                document.getElementById("turn_lable").innerHTML = "I'ts " + turn + " turn";
+            }
+
+            function place_not_taken(number) {
+                return (turns[number-1] == "X" || turns[number-1] == "Y");               
+            }
+
+            function draw(number) {
+                var sqr = document.getElementById(number);
+                if (place_not_taken(number) == false && finish==0) {
+                    if (turn == "X") {
+                        turns[number - 1] = "X";
+                        sqr.innerHTML = "X";                       
+                        count += 1;
+                        change_turn();
+                        nizahon("X");
+                    }
+                    else {
+                        turns[number - 1] = "Y";
+                        sqr.innerHTML = "Y";                        
+                        count += 1;
+                        change_turn();
+                        nizahon("Y");
+                    }
+                }               
+            }
+            function win(z) {
+                turns = ["X", "X", "X", "X", "X", "X", "X", "X", "X"];
+                document.getElementById("turn_lable").innerHTML = z + " won! , press F5 to restart";
+                count = 10;
+            }
+
+            function color_win(c1, c2, c3)
+            {
+                if (finish==0) {
+                    document.getElementById(c1 + 1).style.color = "blue"
+                    document.getElementById(c2 + 1).style.color = "blue"
+                    document.getElementById(c3 + 1).style.color = "blue"
+                }
+                
+                finish = 1;
+            }
+
+            function nizahon(z) {
+                for (var i = 1; i < 4; i++) {
+                    if (turns[i - 1] == z && turns[i + 2] == z && turns[i + 5] == z) {
+                        color_win(i - 1, i + 2, i + 5);
+                        win(z);
+                        
+                    }
+                }           
+                    if (turns[1 - 1] == z && turns[1] == z && turns[1 + 1] == z) {
+                        color_win(0, 1, 2);
+                        win(z);
+                        
+                    }
+                    if (turns[4 - 1] == z && turns[4] == z && turns[4 + 1] == z) {
+                        color_win(3, 4, 5);
+                        win(z)       
+                    }
+                    if (turns[7 - 1] == z && turns[7] == z && turns[7 + 1] == z) {
+                        color_win(6, 7, 8);
+                        win(z);                       
+                    }
+    
+                if ((turns[2] == z && turns[4] == z && turns[6] == z) || (turns[0] == z && turns[4] == z && turns[8] == z)) {
+                    
+                    if (turns[2] == z && turns[4] == z && turns[6] == z) {
+                        color_win(2, 4, 6);
+                    }
+                    else {
+                        color_win(0, 4, 8);
+                    }  
+                    win(z);
+                }
+                if (count == 9) { 
+                        win("its a tie both of u");                                     
+                }
+            }                       
+        </script>
+
+        <h1>Tic Tac Toe</h1>
+        <table>
+            <tr>
+                <td id="1" onclick="draw(1)">   </td>
+                <td id="2" onclick="draw(2)" class="vert"></td>
+                <td id="3" onclick="draw(3)">   </td>
+            </tr>
+            <tr>
+                <td id="4" class="hori" onclick="draw(4)"></td>
+                <td id="5" class="vert hori" onclick="draw(5)"></td>
+                <td id="6" class="hori" onclick="draw(6)"></td>
+            </tr>
+            <tr>
+                <td id="7" onclick="draw(7)"></td>
+                <td id="8" class="vert" onclick="draw(8)"></td>
+                <td id="9" onclick="draw(9)"></td>
+            </tr>
+        </table>
+        <h1 id="turn_lable" >its turn</h1>
+
+
+    </body>
+</html>
+
